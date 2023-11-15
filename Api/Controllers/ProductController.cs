@@ -34,26 +34,26 @@ namespace Api.Controllers
             return Ok(singleProduct);
         }
         [HttpPost]
-        public ActionResult<List<Product>> AddProduct(Product product)
+        public async Task<ActionResult<List<Product>>> AddProduct(Product product)
         {
-            var singleProduct = _productServices.AddProductAsync(product);
+            var singleProduct = await _productServices.AddProductAsync(product);
             if (singleProduct == null)
                 return NotFound("Product not found.");
             return Ok(singleProduct);
         }
         [HttpPut("{id}")]
-        public ActionResult<List<Product>> UpdateProduct(int id, Product product)
+        public async Task<ActionResult<List<Product>>> UpdateProduct(int id, Product product)
         {
-            var singleProduct = _productServices.UpdateProductAsync(id, product);
+            var singleProduct = await _productServices.UpdateProductAsync(id, product);
             if (singleProduct == null)
                 return NotFound("Product not found.");
 
             return Ok(singleProduct);
         }
         [HttpDelete("{id}")]
-        public ActionResult<List<Product>> DeleteProduct(int id)
+        public async Task<ActionResult<List<Product>>> DeleteProduct(int id)
         {
-            var result = _productServices.DeleteProductAsync(id);
+            var result = await _productServices.DeleteProductAsync(id);
             if (result == null)
                 return NotFound("Product not found.");
 

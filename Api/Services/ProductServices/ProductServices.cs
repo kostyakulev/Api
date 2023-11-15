@@ -15,6 +15,7 @@ namespace Api.Services.ProductServices
         public async Task<List<Product>> AddProductAsync(Product product)
         {
             _context.Products.Add(product);
+            await _context.SaveChangesAsync();
             return await _context.Products.ToListAsync();
         }
 
@@ -25,6 +26,7 @@ namespace Api.Services.ProductServices
                 return null;
 
             _context.Products.Remove(singleProduct);
+            await _context.SaveChangesAsync();
             return await _context.Products.ToListAsync();
         }
 
