@@ -11,6 +11,6 @@ public partial class Product
     public string ProductName { get; set; } = null!;
 
     public decimal Price { get; set; }
-    
+    [JsonIgnore]
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }
