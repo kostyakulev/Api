@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Api.Models;
+using Api.Services.ProductServices;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -8,59 +11,53 @@ namespace Api.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly TestDatabaseContext _context;
+        private readonly IProductServices _productServices;
 
-        public ProductController(TestDatabaseContext context)
+        public ProductController(IProductServices productServices)
         {
-            _context = context;
+            _productServices = productServices;
         }
-
-
-
-
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProduct()
+        public async Task<ActionResult<List<Product>>> GetAllProduct()
         {
-            return Ok(await _context.Products.ToListAsync());
+            return await _productServices.GetAllProduct();
         }
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Product>>> GetSingleProduct(int id)
+        public ActionResult<List<Product>> GetSingleProduct(int id)
         {
-            var singleProduct = await _context.Products.FindAsync(id);
+            var singleProduct = _productServices.GetSingleProduct(id);
             if (singleProduct == null)
-                return NotFound("sorry, the product was not found");
+                return NotFound("Product not found.");
+
             return Ok(singleProduct);
         }
         [HttpPost]
-        public async Task<ActionResult<List<Product>>> AddProduct(Product product)
+        public ActionResult<List<Product>> AddProduct(Product product)
         {
-             _context.Products.Add(product);
-            return Ok(await _context.Products.ToArrayAsync());
+            var singleProduct = _productServices.AddProductAsync(product);
+            if (singleProduct == null)
+                return NotFound("Product not found.");
+            return Ok(singleProduct);
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult<List<Product>>> UpdateProduct(int id,Product product)
+        public ActionResult<List<Product>> UpdateProduct(int id, Product product)
         {
-            var singleProduct = await _context.Products.FindAsync(id);
+            var singleProduct = _productServices.UpdateProductAsync(id, product);
             if (singleProduct == null)
-                return NotFound("sorry, the product was not found");
+                return NotFound("Product not found.");
 
-            singleProduct.ProductName = product.ProductName;
-            singleProduct.ProductId = product.ProductId;
-            singleProduct.Price = product.Price;
-
-            return Ok(await _context.Products.ToListAsync());
+            return Ok(singleProduct);
         }
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Product>>> DeleteProduct(int id)
+        public ActionResult<List<Product>> DeleteProduct(int id)
         {
-            var singleProduct = await _context.Products.FindAsync(id);
-            if (singleProduct == null)
-                return NotFound("sorry, the product was not found");
+            var result = _productServices.DeleteProductAsync(id);
+            if (result == null)
+                return NotFound("Product not found.");
 
-            _context.Products.Remove(singleProduct); 
-            return Ok(await _context.Products.ToListAsync());
+            return Ok(result);
         }
     }
 }
