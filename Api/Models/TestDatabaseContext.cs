@@ -6,6 +6,10 @@ namespace Api.Models;
 
 public partial class TestDatabaseContext : DbContext
 {
+    public TestDatabaseContext()
+    {
+    }
+
     public TestDatabaseContext(DbContextOptions<TestDatabaseContext> options)
         : base(options)
     {
@@ -20,7 +24,6 @@ public partial class TestDatabaseContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
         => optionsBuilder.UseSqlServer("Server=KOMPUTER;Database=TestDatabase;Trusted_connection=True; TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
