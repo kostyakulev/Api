@@ -8,10 +8,13 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Api.Controllers
+namespace Api.Controllers.v2
 {
-    [Route("api/[controller]")]
+
+    [Route("api/{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     public class AuthController : ControllerBase
     {
         public static Auth auth = new Auth();
@@ -51,14 +54,14 @@ namespace Api.Controllers
 
             string token = CreateToken(auth);
 
-            return Ok("bearer"+" "+token);
+            return Ok("bearer" + " " + token);
 
         }
         private string CreateToken(Auth auth)
         {
             List<Claim> claims = new List<Claim> {
               new Claim(ClaimTypes.Name, auth.Username),
-              
+
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(

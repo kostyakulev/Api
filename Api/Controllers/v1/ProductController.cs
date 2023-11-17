@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace Api.Controllers
+namespace Api.Controllers.v2
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -26,7 +26,7 @@ namespace Api.Controllers
         }
         [HttpGet("{id}")]
         public ActionResult<List<Product>> GetSingleProduct(int id)
-        { 
+        {
             var singleProduct = _productServices.GetSingleProduct(id);
             if (singleProduct == null)
                 return NotFound("Product not found.");
@@ -44,20 +44,21 @@ namespace Api.Controllers
             }
             catch (Exception)
             {
-               return StatusCode(400,"Bed request");
+                return StatusCode(400, "Bed request");
             }
         }
         [HttpPut("{id}")]
         public async Task<ActionResult<List<Product>>> UpdateProduct(int id, Product product)
         {
-            try {
+            try
+            {
                 var singleProduct = await _productServices.UpdateProductAsync(id, product);
                 if (singleProduct == null)
                     return NotFound("Product not found.");
 
                 return Ok(singleProduct);
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 return StatusCode(400, "Bed request");
             }
