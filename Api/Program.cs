@@ -1,5 +1,6 @@
 global using Api.Models;
 global using Microsoft.EntityFrameworkCore;
+using Api.Services.OrderServices;
 using Api.Services.ProductServices;
 using Api.Services.UserServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -36,6 +37,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IOrderServices, OrderServices>();
 builder.Services.AddDbContext<TestDatabaseContext>();
 
 
