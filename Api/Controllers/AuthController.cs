@@ -51,7 +51,7 @@ namespace Api.Controllers
 
             string token = CreateToken(auth);
 
-            return Ok(token);
+            return Ok("bearer"+" "+token);
 
         }
         private string CreateToken(Auth auth)

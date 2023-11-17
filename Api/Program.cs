@@ -1,6 +1,7 @@
 global using Api.Models;
 global using Microsoft.EntityFrameworkCore;
 using Api.Services.ProductServices;
+using Api.Services.UserServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
@@ -34,6 +35,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 builder.Services.AddScoped<IProductServices, ProductServices>();
+builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddDbContext<TestDatabaseContext>();
 
 

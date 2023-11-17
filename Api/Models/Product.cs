@@ -6,8 +6,6 @@ namespace Api.Models;
 
 public partial class Product
 {
-    
-
     public string ProductName { get; set; } = null!;
 
     public decimal Price { get; set; }
