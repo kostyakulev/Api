@@ -50,7 +50,7 @@ namespace Api.Controllers
             {
                 var singleOrder = await _orderServices.UpdateOrderAsync(id, order);
                 if (singleOrder == null)
-                    return NotFound("Product not found.");
+                    return NotFound("Order not found.");
 
                 return Ok(singleOrder);
             }
@@ -65,7 +65,7 @@ namespace Api.Controllers
         {
             var result = await _orderServices.DeleteOrderAsync(id);
             if (result == null)
-                return NotFound("Product not found.");
+                return NotFound("Order not found.");
 
             return Ok(result);
         }
