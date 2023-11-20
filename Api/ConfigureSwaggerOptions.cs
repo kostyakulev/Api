@@ -16,10 +16,7 @@ namespace Api
             _provider = provider;
         }
 
-        /// <summary>
-        /// Configure each API discovered for Swagger Documentation
-        /// </summary>
-        /// <param name="options"></param>
+        
         public void Configure(SwaggerGenOptions options)
         {
             // add swagger document for every API version discovered
@@ -31,21 +28,13 @@ namespace Api
             }
         }
 
-        /// <summary>
-        /// Configure Swagger Options. Inherited from the Interface
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="options"></param>
+        
         public void Configure(string name, SwaggerGenOptions options)
         {
             Configure(options);
         }
 
-        /// <summary>
-        /// Create information about the version of the API
-        /// </summary>
-        /// <param name="description"></param>
-        /// <returns>Information about the API</returns>
+       
         private OpenApiInfo CreateVersionInfo(
                 ApiVersionDescription desc)
         {

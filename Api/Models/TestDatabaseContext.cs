@@ -24,13 +24,14 @@ public partial class TestDatabaseContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=KOMPUTER;Database=TestDatabase;Trusted_connection=True; TrustServerCertificate=True");
+
+        => optionsBuilder.UseSqlServer("Server=sql11.freesqldatabase.com; Port=3306; User id=sql11663586; Password=uj9B95RVmY; Database=sql11663586; Trusted_connection=True; TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BCF2B2A75FE");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BCF3BFC4390");
 
             entity.Property(e => e.OrderDate).HasColumnType("date");
 
@@ -41,22 +42,20 @@ public partial class TestDatabaseContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => new { e.OrderId, e.ProductId }).HasName("PK__OrderDet__08D097A3A8429EB1");
+            entity.HasKey(e => e.OrderDetailsId).HasName("PK__OrderDet__9DD74DBD07737886");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__OrderDeta__Order__3E52440B");
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__OrderDeta__Produ__3F466844");
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6CD38102253");
+            entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6CDF8B74AFD");
 
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.ProductName).HasMaxLength(50);
@@ -64,7 +63,7 @@ public partial class TestDatabaseContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CBF556851");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CB0BA9BD2");
 
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.Username).HasMaxLength(50);

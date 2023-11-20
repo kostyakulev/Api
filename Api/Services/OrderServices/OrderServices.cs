@@ -29,13 +29,16 @@
 
         public async Task<List<Order>> GetAllOrder()
         {
-            var orders = await _context.Orders.ToListAsync();
-            return orders;
+            var orders = await _context.Orders.Include(p => p.OrderDetails).ThenInclude(p => p.Product).ToListAsync();
+           return orders;
+            
+           
+           
         }
 
         public async Task<Order?> GetSingleOrder(int id)
         {
-            var singleOrder = _context.Orders.Find(id);
+            var singleOrder = _context.Orders.Include(p => p.OrderDetails).ThenInclude(p => p.Product).FirstOrDefault(p => p.OrderId == id);
             if (singleOrder == null)
                 return null;
             return singleOrder;
