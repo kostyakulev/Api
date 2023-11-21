@@ -25,7 +25,7 @@ public partial class TestDatabaseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
-        => optionsBuilder.UseSqlServer("Server=sql11.freesqldatabase.com; Port=3306; User id=sql11663586; Password=uj9B95RVmY; Database=sql11663586; Trusted_connection=True; TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=TestDatabasekk.mssql.somee.com;User id=OnMyOwn_SQLLogin_2;Password=hwy7yjgbv2;Database=TestDatabasekk; TrustServerCertificate=True"/*"Server=sql305.byethost22.com; User id=b22_35465303; Password=k9o9s9t9y9a9; Database=b22_35465303_TestDatabase; TrustServerCertificate=True"*/);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
