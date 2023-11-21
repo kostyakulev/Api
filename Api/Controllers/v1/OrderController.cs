@@ -68,7 +68,7 @@ namespace Api.Controllers.v2
             var result = await _orderServices.DeleteOrderAsync(id);
             if (result == null)
                 return NotFound("Order not found.");
-
+            
             return Ok(result);
         }
     }
