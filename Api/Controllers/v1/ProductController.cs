@@ -19,12 +19,24 @@ namespace Api.Controllers.v2
         {
             _productServices = productServices;
         }
+        /// <summary>
+        /// Get all products.
+        /// </summary>
+        /// <returns>Returns a list of all products.</returns>
         [HttpGet]
+        [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
         public async Task<ActionResult<List<Product>>> GetAllProduct()
         {
             return await _productServices.GetAllProduct();
         }
+        /// <summary>
+        /// Get information about a specific product by its identifier.
+        /// </summary>
+        /// <param name="id">The identifier of the product.</param>
+        /// <returns>Returns information about a specific product.</returns>        
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(404)] // Specifies the response when the product is not found
         public ActionResult<List<Product>> GetSingleProduct(int id)
         {
             var singleProduct = _productServices.GetSingleProduct(id);
@@ -32,7 +44,23 @@ namespace Api.Controllers.v2
                 return NotFound("Product not found.");
             return Ok(singleProduct);
         }
+        /// <summary>
+        /// Add a new product.
+        /// </summary>
+        /// <param name="product">Data for the new product.</param>
+        /// <returns>Returns information about the added product.</returns>
+        /// <example>
+        /// Example successful response:
+        /// 
+        /// {
+        ///     "productId": 1,
+        ///     "productName": "New Product"
+        /// }
+        /// </example>
         [HttpPost]
+        [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(404)] // Specifies the response when the product is not found
+        [ProducesResponseType(400)] // Specifies the response for a bad request
         public async Task<ActionResult<List<Product>>> AddProduct(Product product)
         {
             try
@@ -47,7 +75,25 @@ namespace Api.Controllers.v2
                 return StatusCode(400, "Bed request");
             }
         }
+        /// <summary>
+        /// Update information about a product by its identifier.
+        /// </summary>
+        /// <param name="id">The identifier of the product to update.</param>
+        /// <param name="product">New data for updating the product.</param>
+        /// <returns>Returns information about the updated product.</returns>
+        /// <example>
+        /// Example request:
+        /// 
+        /// PUT /api/products/1
+        /// {
+        ///     "productId": 1,
+        ///     "productName": "Updated Product"
+        /// }
+        /// </example>
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(404)] // Specifies the response when the product is not found
+        [ProducesResponseType(400)] // Specifies the response for a bad request
         public async Task<ActionResult<List<Product>>> UpdateProduct(int id, Product product)
         {
             try
@@ -64,7 +110,22 @@ namespace Api.Controllers.v2
             }
 
         }
+        /// <summary>
+        /// Delete a product by its identifier.
+        /// </summary>
+        /// <param name="id">The identifier of the product to delete.</param>
+        /// <returns>Returns information about the deleted product.</returns>
+        /// <example>
+        /// Example successful response:
+        /// 
+        /// {
+        ///     "productId": 1,
+        ///     "productName": "Deleted Product"
+        /// }
+        /// </example>
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(404)] // Specifies the response when the product is not found
         public async Task<ActionResult<List<Product>>> DeleteProduct(int id)
         {
             var result = await _productServices.DeleteProductAsync(id);

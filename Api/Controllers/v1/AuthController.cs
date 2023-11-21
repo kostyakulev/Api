@@ -24,8 +24,24 @@ namespace Api.Controllers.v2
         {
             _configuration = configuration;
         }
-
+        /// <summary>
+        /// Method for registering a new user.
+        /// </summary>
+        /// <remarks>
+        /// Example request:
+        /// 
+        ///     POST /register
+        ///     {
+        ///        "username": "exampleUser",
+        ///        "password": "examplePassword"
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="request">Data for registering a new user.</param>
+        /// <returns>Returns information about the registered user.</returns>
+        /// <response code="200">Successful registration. Returns information about the registered user.</response>
         [HttpPost("register")]
+        [ProducesResponseType(typeof(Auth), 200)] // Specifies the data type for a successful response
         public async Task<ActionResult<Auth>> Register(AuthDto request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -37,7 +53,26 @@ namespace Api.Controllers.v2
             return Ok(auth);
 
         }
+        /// <summary>
+        /// Method for authenticating a user.
+        /// </summary>
+        /// <remarks>
+        /// Example request:
+        /// 
+        ///     POST /login
+        ///     {
+        ///        "username": "exampleUser",
+        ///        "password": "examplePassword"
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="request">Data for authentication.</param>
+        /// <returns>Returns an authorization token in case of successful authentication.</returns>
+        /// <response code="200">Successful authentication. Returns an authorization token.</response>
+        /// <response code="400">Incorrect authentication data (e.g., incorrect username or password).</response>
         [HttpPost("login")]
+        [ProducesResponseType(typeof(string), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(string), 400)] // Specifies the data type for an error response
         public async Task<ActionResult<Auth>> Login(AuthDto request)
         {
 
@@ -57,6 +92,7 @@ namespace Api.Controllers.v2
             return Ok("bearer" + " " + token);
 
         }
+        
         private string CreateToken(Auth auth)
         {
             List<Claim> claims = new List<Claim> {

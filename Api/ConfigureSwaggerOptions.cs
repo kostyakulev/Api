@@ -19,7 +19,7 @@ namespace Api
         
         public void Configure(SwaggerGenOptions options)
         {
-            // add swagger document for every API version discovered
+          
             foreach (var description in _provider.ApiVersionDescriptions)
             {
                 options.SwaggerDoc(
