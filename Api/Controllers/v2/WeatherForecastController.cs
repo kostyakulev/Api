@@ -6,7 +6,7 @@ namespace Api.Controllers.v2
     [ApiController]
     [ApiVersion("2.0")]
     [Authorize]
-    [Route("[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

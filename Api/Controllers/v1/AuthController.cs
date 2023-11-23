@@ -11,7 +11,7 @@ using System.Text;
 namespace Api.Controllers.v2
 {
 
-    [Route("api/{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]

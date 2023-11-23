@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.v2
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserServices _userServices;
@@ -31,14 +32,14 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="id">The identifier of the user.</param>
         /// <returns>Returns information about a specific user.</returns>
-        /// <example>
+        /// <remarks>
         /// Example successful response:
         /// 
         /// {
         ///     "userId": 1,
         ///     "userName": "Example User"
         /// }
-        /// </example>
+        /// </remarks>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
@@ -54,14 +55,14 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="user">Data for the new user.</param>
         /// <returns>Returns information about the added user.</returns>
-        /// <example>
+        /// <remarks>
         /// Example successful response:
         /// 
         /// {
         ///     "userId": 1,
         ///     "userName": "New User"
         /// }
-        /// </example>
+        /// </remarks>
         [HttpPost]
         [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
@@ -86,7 +87,7 @@ namespace Api.Controllers.v2
         /// <param name="id">The identifier of the user to update.</param>
         /// <param name="user">New data for updating the user.</param>
         /// <returns>Returns information about the updated user.</returns>
-        /// <example>
+        /// <remarks>
         /// Example request:
         /// 
         /// PUT /api/users/1
@@ -94,7 +95,7 @@ namespace Api.Controllers.v2
         ///     "userId": 1,
         ///     "userName": "Updated User"
         /// }
-        /// </example>
+        /// </remarks>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
@@ -120,14 +121,14 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="id">The identifier of the user to delete.</param>
         /// <returns>Returns information about the deleted user.</returns>
-        /// <example>
+        /// <remarks>
         /// Example successful response:
         /// 
         /// {
         ///     "userId": 1,
         ///     "userName": "Deleted User"
         /// }
-        /// </example>
+        /// </remarks>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers.v2
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [Authorize]
     public class ProductController : ControllerBase
@@ -49,14 +49,14 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="product">Data for the new product.</param>
         /// <returns>Returns information about the added product.</returns>
-        /// <example>
+        /// <remarks>
         /// Example successful response:
         /// 
         /// {
         ///     "productId": 1,
         ///     "productName": "New Product"
         /// }
-        /// </example>
+        /// </remarks>
         [HttpPost]
         [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the product is not found
@@ -81,7 +81,7 @@ namespace Api.Controllers.v2
         /// <param name="id">The identifier of the product to update.</param>
         /// <param name="product">New data for updating the product.</param>
         /// <returns>Returns information about the updated product.</returns>
-        /// <example>
+        /// <remarks>
         /// Example request:
         /// 
         /// PUT /api/products/1
@@ -89,7 +89,7 @@ namespace Api.Controllers.v2
         ///     "productId": 1,
         ///     "productName": "Updated Product"
         /// }
-        /// </example>
+        /// </remarks>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the product is not found
@@ -115,14 +115,14 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="id">The identifier of the product to delete.</param>
         /// <returns>Returns information about the deleted product.</returns>
-        /// <example>
+        /// <remarks>
         /// Example successful response:
         /// 
         /// {
         ///     "productId": 1,
         ///     "productName": "Deleted Product"
         /// }
-        /// </example>
+        /// </remarks>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the product is not found

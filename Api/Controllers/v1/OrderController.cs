@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.v2
-{   
-    [Route("api/[controller]")]
+{
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [Authorize]
     
@@ -48,7 +48,7 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="order">Data for the new order.</param>
         /// <returns>Returns information about the added order.</returns>
-        /// <example>
+        /// <remarks>
         /// Example request:
         /// 
         /// POST /api/orders
@@ -56,7 +56,7 @@ namespace Api.Controllers.v2
         ///     "orderId": 1,
         ///     "orderName": "New Order"
         /// }
-        /// </example>
+        /// </remarks>
         [HttpPost]
         [ProducesResponseType(typeof(List<Order>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the order is not found
@@ -81,7 +81,7 @@ namespace Api.Controllers.v2
         /// <param name="id">The identifier of the order to update.</param>
         /// <param name="order">New data for updating the order.</param>
         /// <returns>Returns information about the updated order.</returns>
-        /// <example>
+        /// <remarks>
         /// Example request:
         /// 
         /// PUT /api/orders/1
@@ -89,7 +89,7 @@ namespace Api.Controllers.v2
         ///     "orderId": 1,
         ///     "orderName": "Updated Order"
         /// }
-        /// </example>
+        /// </remarks>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(List<Order>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the order is not found

@@ -1,6 +1,7 @@
 global using Api.Models;
 global using Microsoft.EntityFrameworkCore;
 using Api;
+using Api.Services.Http;
 using Api.Services.OrderServices;
 using Api.Services.ProductServices;
 using Api.Services.UserServices;
@@ -46,6 +47,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IUserServicesHttp, UserServicesHttp>();
 builder.Services.AddScoped<IOrderServices, OrderServices>();
 builder.Services.AddDbContext<TestDatabaseContext>();
 builder.Services.AddApiVersioning(options => 
@@ -65,7 +67,7 @@ builder.Services.AddVersionedApiExplorer(setup =>
 });
 var app = builder.Build();
 var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -84,10 +86,10 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
-app.UseAuthorization();
-
 app.UseApiVersioning();
 
 app.MapControllers();
+
+app.UseAuthorization();
 
 app.Run();

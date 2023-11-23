@@ -5,11 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Api.Models;
 
 public partial class TestDatabaseContext : DbContext
-{
-    public TestDatabaseContext()
-    {
-    }
-
+{   
     public TestDatabaseContext(DbContextOptions<TestDatabaseContext> options)
         : base(options)
     {
