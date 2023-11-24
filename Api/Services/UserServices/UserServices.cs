@@ -9,22 +9,22 @@
             _context = context;
         }
 
-        public async Task<List<User>> AddUserAsync(User user)
+        public async Task<User> AddUserAsync(User user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            return await _context.Users.ToListAsync();
+            return user;
         }
 
-        public async Task<List<User>?> DeleteUserAsync(int id)
+        public async Task<bool> DeleteUserAsync(int id)
         {
             var singleUser = await _context.Users.FindAsync(id);
             if (singleUser == null)
-                return null;
+                return false;
 
             _context.Users.Remove(singleUser);
             await _context.SaveChangesAsync();
-            return await _context.Users.ToListAsync();
+            return true;
         }
 
         public async Task<List<User>> GetAllUsers()
@@ -35,7 +35,7 @@
 
         public async Task<User?> GetSingleUser(int id)
         {
-            var singleUser = _context.Users.Find(id);
+            var singleUser = _context.Users.FirstOrDefault(u => u.UserId == id);
             if (singleUser == null)
                 return null;
             return singleUser;
@@ -43,19 +43,18 @@
 
         }
 
-        public async Task<List<User>?> UpdateUserAsync(int id, User user)
+        public async Task<User?> UpdateUserAsync(int id, User user)
         {
             var singleUser = await _context.Users.FindAsync(id);
             if (singleUser == null)
                 return null;
 
             singleUser.Username = user.Username;
-            singleUser.UserId = user.UserId;
             singleUser.Email = user.Email;
 
             await _context.SaveChangesAsync();
 
-            return await _context.Users.ToListAsync();
+            return singleUser;
         }
     }
 

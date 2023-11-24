@@ -8,7 +8,7 @@ namespace Api.Services.OrderServices
         List<OrderDto> GetAllOrder();
         OrderDto GetSingleOrder(int id);
         Task<List<Order>> AddOrderAsync(Order order);
-        Task<List<Order>?> UpdateOrderAsync(int id, Order order);
-        Task<List<Order>?> DeleteOrderAsync(int id);
+        Task<Order> UpdateOrderAsync(int id, Order order);
+        Task<bool> DeleteOrderAsync(int id);
     }
 }

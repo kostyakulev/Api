@@ -7,7 +7,7 @@ namespace Api.Controllers.v2
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("2.0")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class UserControllerHttp : ControllerBase
     {
         
@@ -46,7 +46,7 @@ namespace Api.Controllers.v2
         /// <param name="id">The identifier of the user.</param>
         /// <returns>Returns information about a specific user.</returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(User), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
         public async Task<ActionResult<UserHttp>> GetSingleUser(int id)
         {
@@ -72,12 +72,12 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="user">Data for the new user.</param>
         /// <returns>Returns information about the added user.</returns>
-        /// <remarks>        
+            
         [HttpPost]
-        [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(User), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
         [ProducesResponseType(400)] // Specifies the response for a bad request
-        public async Task<ActionResult<List<UserHttp>>> AddUser([FromBody] UserHttp userhttp)
+        public async Task<ActionResult<UserHttp>> AddUser([FromBody] UserHttp userhttp)
         {
             try
             {
@@ -101,10 +101,10 @@ namespace Api.Controllers.v2
         /// <response code="404">User not found.</response>
         /// <response code="500">Internal Server Error.</response>
         [HttpPut("{id}", Name = "updateUser")]
-        [ProducesResponseType(typeof(List<UserHttp>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(UserHttp), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
         [ProducesResponseType(500)] // Specifies internal server error
-        public async Task<ActionResult<List<UserHttp>>> UpdateUser(int id, [FromBody] UserHttp userhttp)
+        public async Task<ActionResult<UserHttp>> UpdateUser(int id, [FromBody] UserHttp userhttp)
         {
             try
             {
@@ -127,10 +127,10 @@ namespace Api.Controllers.v2
         /// <response code="404">User not found.</response>
         /// <response code="500">Internal Server Error.</response>
         [HttpDelete("{id}", Name = "deleteUser")]
-        [ProducesResponseType(typeof(List<UserHttp>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(UserHttp), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
         [ProducesResponseType(500)] // Specifies internal server error
-        public async Task<ActionResult<List<UserHttp>>> DeleteUser(int id)
+        public async Task<ActionResult<UserHttp>> DeleteUser(int id)
         {
             try
             {

@@ -28,7 +28,7 @@ namespace Api.Services.Http
             return await response.Content.ReadFromJsonAsync<UserHttp>();
         }
 
-        public async Task<UserHttp>? DeleteUserAsync(int id)
+        public async Task<UserHttp> DeleteUserAsync(int id)
         {
             HttpResponseMessage response = await _httpClient.DeleteAsync($"users/{id}");
             response.EnsureSuccessStatusCode();

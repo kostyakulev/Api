@@ -35,9 +35,9 @@ namespace Api.Controllers.v2
         /// <param name="id">The identifier of the order.</param>
         /// <returns>Returns information about a specific order.</returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(List<Order>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(Order), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the order is not found
-        public ActionResult<List<Order>> GetSingleOrder(int id)
+        public ActionResult<Order> GetSingleOrder(int id)
         {
             var singleOrder = _orderServices.GetSingleOrder(id);
             if (singleOrder == null)
@@ -50,10 +50,10 @@ namespace Api.Controllers.v2
         /// <param name="order">Data for the new order.</param>
         /// <returns>Returns information about the added order.</returns>
         [HttpPost]
-        [ProducesResponseType(typeof(List<Order>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(Order), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the order is not found
         [ProducesResponseType(400)] // Specifies the response for a bad request
-        public async Task<ActionResult<List<Order>>> AddOrder(Order order)
+        public async Task<ActionResult<Order>> AddOrder(Order order)
         {
             try
             {
@@ -74,10 +74,10 @@ namespace Api.Controllers.v2
         /// <param name="order">New data for updating the order.</param>
         /// <returns>Returns information about the updated order.</returns>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(List<Order>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(Order), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the order is not found
         [ProducesResponseType(400)] // Specifies the response for a bad request
-        public async Task<ActionResult<List<Order>>> UpdateOrder(int id, Order order)
+        public async Task<ActionResult<Order>> UpdateOrder(int id, Order order)
         {
             try
             {
@@ -99,15 +99,14 @@ namespace Api.Controllers.v2
         /// <param name="id">The identifier of the order to delete.</param>
         /// <returns>Returns information about the deleted order.</returns>
         [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(List<Order>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the order is not found
-        public async Task<ActionResult<List<Order>>> DeleteOrder(int id)
+        public async Task<ActionResult> DeleteOrder(int id)
         {
             var result = await _orderServices.DeleteOrderAsync(id);
-            if (result == null)
+            if (result == false)
                 return NotFound("Order not found.");
             
-            return Ok(result);
+            return Ok() ;
         }
     }
 }

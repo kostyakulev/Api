@@ -1,4 +1,5 @@
 ﻿using Api.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Services.OrderServices
 {
@@ -28,15 +29,15 @@ namespace Api.Services.OrderServices
             return await _context.Orders.ToListAsync();
         }
 
-        public async Task<List<Order>?> DeleteOrderAsync(int id)
+        public async Task<bool> DeleteOrderAsync(int id)
         {
             var singleOrder = _context.Orders.Include(p => p.OrderDetails).ThenInclude(p => p.Product).FirstOrDefault(p => p.OrderId == id);
             if (singleOrder == null)
-                return null;
+                return false;
             _context.OrderDetails.RemoveRange(singleOrder.OrderDetails);
             _context.Orders.Remove(singleOrder);
             await _context.SaveChangesAsync();
-            return await _context.Orders.ToListAsync();
+            return true;
         }
 
         public List<OrderDto> GetAllOrder() 
@@ -96,14 +97,12 @@ namespace Api.Services.OrderServices
             return ordermodels;
         }
 
-        public async Task<List<Order>?> UpdateOrderAsync(int id, Order order)
+        public async Task<Order> UpdateOrderAsync(int id, Order order)
         {
             var singleOrder = await _context.Orders.Include(o => o.OrderDetails).FirstOrDefaultAsync(o => o.OrderId == id);
         
             if (singleOrder == null)
                 return null;
-            singleOrder.UserId = order.UserId;
-            _context.OrderDetails.RemoveRange(singleOrder.OrderDetails);
             singleOrder.OrderDetails = order.OrderDetails.Select( od => new OrderDetail
             {  
                 ProductId = od.ProductId,
@@ -113,7 +112,7 @@ namespace Api.Services.OrderServices
 
             await _context.SaveChangesAsync();
 
-            return await _context.Orders.ToListAsync();
+            return singleOrder;
         }
     }
 }

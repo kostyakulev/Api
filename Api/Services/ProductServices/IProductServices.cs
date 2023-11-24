@@ -4,8 +4,8 @@
     {
         Task<List<Product>> GetAllProduct();
         Task<Product?> GetSingleProduct(int id);
-        Task<List<Product>> AddProductAsync(Product product);
-        Task<List<Product>?> UpdateProductAsync(int id, Product product);
-        Task<List<Product>?> DeleteProductAsync(int id);
+        Task<Product> AddProductAsync(Product product);
+        Task<Product?> UpdateProductAsync(int id, Product product);
+        Task<bool> DeleteProductAsync(int id);
     }
 }

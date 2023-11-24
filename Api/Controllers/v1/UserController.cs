@@ -32,18 +32,10 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="id">The identifier of the user.</param>
         /// <returns>Returns information about a specific user.</returns>
-        /// <remarks>
-        /// Example successful response:
-        /// 
-        /// {
-        ///     "userId": 1,
-        ///     "userName": "Example User"
-        /// }
-        /// </remarks>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(User), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
-        public ActionResult<List<User>> GetSingleUser(int id)
+        public ActionResult<User> GetSingleUser(int id)
         {
             var singleUser = _userServices.GetSingleUser(id);
             if (singleUser == null)
@@ -55,19 +47,12 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="user">Data for the new user.</param>
         /// <returns>Returns information about the added user.</returns>
-        /// <remarks>
-        /// Example successful response:
-        /// 
-        /// {
-        ///     "userId": 1,
-        ///     "userName": "New User"
-        /// }
-        /// </remarks>
+           
         [HttpPost]
-        [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(User), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
         [ProducesResponseType(400)] // Specifies the response for a bad request
-        public async Task<ActionResult<List<User>>> AddUser(User user)
+        public async Task<ActionResult<User>> AddUser(User user)
         {
             try
             {
@@ -76,9 +61,9 @@ namespace Api.Controllers.v2
                     return NotFound("User not found.");
                 return Ok(singleUser);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(400, "Bed request");
+                return StatusCode(400, $"Bed request {ex.Message}");
             }
         }
         /// <summary>
@@ -87,20 +72,11 @@ namespace Api.Controllers.v2
         /// <param name="id">The identifier of the user to update.</param>
         /// <param name="user">New data for updating the user.</param>
         /// <returns>Returns information about the updated user.</returns>
-        /// <remarks>
-        /// Example request:
-        /// 
-        /// PUT /api/users/1
-        /// {
-        ///     "userId": 1,
-        ///     "userName": "Updated User"
-        /// }
-        /// </remarks>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(User), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
         [ProducesResponseType(400)] // Specifies the response for a bad request
-        public async Task<ActionResult<List<User>>> UpdateUser(int id, User user)
+        public async Task<ActionResult<User>> UpdateUser(int id, User user)
         {
             try
             {
@@ -110,9 +86,9 @@ namespace Api.Controllers.v2
 
                 return Ok(singleUser);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(400, "Bed request");
+                return StatusCode(400, $"Bed request{ex.Message}");
             }
 
         }
@@ -121,24 +97,21 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="id">The identifier of the user to delete.</param>
         /// <returns>Returns information about the deleted user.</returns>
-        /// <remarks>
-        /// Example successful response:
-        /// 
-        /// {
-        ///     "userId": 1,
-        ///     "userName": "Deleted User"
-        /// }
-        /// </remarks>
         [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
-        public async Task<ActionResult<List<User>>> DeleteUser(int id)
+        public async Task<ActionResult> DeleteUser(int id)
         {
-            var result = await _userServices.DeleteUserAsync(id);
-            if (result == null)
-                return NotFound("User not found.");
+            try {
+                var result = await _userServices.DeleteUserAsync(id);
+                if (result == false)
+                    return NotFound("User not found.");
 
-            return Ok(result);
+                return Ok();
+            } catch(Exception ex) 
+            {
+                return BadRequest(ex);
+            }
+            
         }
     }
 }

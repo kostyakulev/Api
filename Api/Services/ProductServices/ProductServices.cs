@@ -12,22 +12,22 @@ namespace Api.Services.ProductServices
             _context = context;
         }
 
-        public async Task<List<Product>> AddProductAsync(Product product)
+        public async Task<Product> AddProductAsync(Product product)
         {
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
-            return await _context.Products.ToListAsync();
+            return product;
         }
 
-        public async Task<List<Product>?> DeleteProductAsync(int id)
+        public async Task<bool> DeleteProductAsync(int id)
         {
             var singleProduct = await _context.Products.FindAsync(id);
             if (singleProduct == null)
-                return null;
+                return false;
 
             _context.Products.Remove(singleProduct);
             await _context.SaveChangesAsync();
-            return await _context.Products.ToListAsync();
+            return true;
         }
 
         public async Task<List<Product>> GetAllProduct()
@@ -38,25 +38,24 @@ namespace Api.Services.ProductServices
 
         public async Task<Product?> GetSingleProduct(int id)
         {
-            var singleProduct = _context.Products.Find(id);
+            var singleProduct = _context.Products.FirstOrDefault(p => p.ProductId == id);
             if (singleProduct == null)
                 return null;
             return singleProduct;
         }
 
-        public async Task<List<Product>?> UpdateProductAsync(int id, Product product)
+        public async Task<Product?> UpdateProductAsync(int id, Product product)
         {
             var singleProduct = await _context.Products.FindAsync(id);
             if (singleProduct == null)
                 return null;
 
             singleProduct.ProductName = product.ProductName;
-            singleProduct.ProductId = product.ProductId;
             singleProduct.Price = product.Price;
 
             await _context.SaveChangesAsync();
 
-            return await _context.Products.ToListAsync();
+            return singleProduct;
         }
     }
     

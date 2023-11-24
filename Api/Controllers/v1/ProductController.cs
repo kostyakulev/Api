@@ -35,11 +35,11 @@ namespace Api.Controllers.v2
         /// <param name="id">The identifier of the product.</param>
         /// <returns>Returns information about a specific product.</returns>        
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(Product), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the product is not found
-        public ActionResult<List<Product>> GetSingleProduct(int id)
+        public  async Task<ActionResult<Product>> GetSingleProduct(int id)
         {
-            var singleProduct = _productServices.GetSingleProduct(id);
+            var singleProduct = await _productServices.GetSingleProduct(id);
             if (singleProduct == null)
                 return NotFound("Product not found.");
             return Ok(singleProduct);
@@ -50,10 +50,10 @@ namespace Api.Controllers.v2
         /// <param name="product">Data for the new product.</param>
         /// <returns>Returns information about the added product.</returns>
         [HttpPost]
-        [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
+        [ProducesResponseType(typeof(Product), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the product is not found
         [ProducesResponseType(400)] // Specifies the response for a bad request
-        public async Task<ActionResult<List<Product>>> AddProduct(Product product)
+        public async Task<ActionResult<Product>> AddProduct(Product product)
         {
             try
             {
@@ -62,9 +62,9 @@ namespace Api.Controllers.v2
                     return NotFound("Product not found.");
                 return Ok(singleProduct);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(400, "Bed request");
+                return StatusCode(400, $"Bed request {ex.Message}");
             }
         }
         /// <summary>
@@ -77,7 +77,7 @@ namespace Api.Controllers.v2
         [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the product is not found
         [ProducesResponseType(400)] // Specifies the response for a bad request
-        public async Task<ActionResult<List<Product>>> UpdateProduct(int id, Product product)
+        public async Task<ActionResult<Product>> UpdateProduct( int id, Product product)
         {
             try
             {
@@ -87,9 +87,9 @@ namespace Api.Controllers.v2
 
                 return Ok(singleProduct);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(400, "Bed request");
+                return StatusCode(400, $"Bed request {ex.Message}");
             }
 
         }
@@ -99,15 +99,20 @@ namespace Api.Controllers.v2
         /// <param name="id">The identifier of the product to delete.</param>
         /// <returns>Returns information about the deleted product.</returns>
         [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the product is not found
-        public async Task<ActionResult<List<Product>>> DeleteProduct(int id)
+        public async Task<ActionResult> DeleteProduct(int id)
         {
-            var result = await _productServices.DeleteProductAsync(id);
-            if (result == null)
-                return NotFound("Product not found.");
+            try
+            {
+                var result = await _productServices.DeleteProductAsync(id);
+                if (result == false)
+                    return NotFound("Product not found.");
 
-            return Ok(result);
+                return Ok();
+            } catch(Exception ex) {
+                return BadRequest(ex);
+            }
+
         }
     }
 }
