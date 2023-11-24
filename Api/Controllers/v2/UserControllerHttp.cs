@@ -7,7 +7,7 @@ namespace Api.Controllers.v2
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("2.0")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class UserControllerHttp : ControllerBase
     {
         
@@ -45,14 +45,6 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="id">The identifier of the user.</param>
         /// <returns>Returns information about a specific user.</returns>
-        /// <remarks>
-        /// Example successful response:
-        /// 
-        /// {
-        ///     "userId": 1,
-        ///     "userName": "Example User"
-        /// }
-        /// </remarks>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found
@@ -80,14 +72,7 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="user">Data for the new user.</param>
         /// <returns>Returns information about the added user.</returns>
-        /// <remarks>
-        /// Example successful response:
-        /// 
-        /// {
-        ///     "userId": 1,
-        ///     "userName": "New User"
-        /// }
-        /// </remarks>
+        /// <remarks>        
         [HttpPost]
         [ProducesResponseType(typeof(List<User>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the user is not found

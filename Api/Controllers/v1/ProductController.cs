@@ -49,14 +49,6 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="product">Data for the new product.</param>
         /// <returns>Returns information about the added product.</returns>
-        /// <remarks>
-        /// Example successful response:
-        /// 
-        /// {
-        ///     "productId": 1,
-        ///     "productName": "New Product"
-        /// }
-        /// </remarks>
         [HttpPost]
         [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the product is not found
@@ -81,15 +73,6 @@ namespace Api.Controllers.v2
         /// <param name="id">The identifier of the product to update.</param>
         /// <param name="product">New data for updating the product.</param>
         /// <returns>Returns information about the updated product.</returns>
-        /// <remarks>
-        /// Example request:
-        /// 
-        /// PUT /api/products/1
-        /// {
-        ///     "productId": 1,
-        ///     "productName": "Updated Product"
-        /// }
-        /// </remarks>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the product is not found
@@ -115,14 +98,6 @@ namespace Api.Controllers.v2
         /// </summary>
         /// <param name="id">The identifier of the product to delete.</param>
         /// <returns>Returns information about the deleted product.</returns>
-        /// <remarks>
-        /// Example successful response:
-        /// 
-        /// {
-        ///     "productId": 1,
-        ///     "productName": "Deleted Product"
-        /// }
-        /// </remarks>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(List<Product>), 200)] // Specifies the data type for a successful response
         [ProducesResponseType(404)] // Specifies the response when the product is not found
