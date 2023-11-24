@@ -1,4 +1,4 @@
-﻿using Api.Models;
+﻿using Api.ViewModels;
 
 namespace Api.Services.OrderServices
 {
@@ -39,19 +39,61 @@ namespace Api.Services.OrderServices
             return await _context.Orders.ToListAsync();
         }
 
-        public async Task<List<Order>> GetAllOrder()
+        public List<OrderDto> GetAllOrder() 
         {
-           var orders = await _context.Orders.Include(o => o.OrderDetails).ThenInclude(od => od.Product).ToListAsync();
-           return orders;
-                  
-         }
+            //var orders = await _context.Orders.Include(o => o.OrderDetails).ThenInclude(od => od.Product).ToListAsync();
+            //return orders;
+            var orders = _context.Orders
+           .Include(o => o.User)
+           .Include(o => o.OrderDetails)
+               .ThenInclude(od => od.Product)
+           .ToList();
 
-        public async Task<Order?> GetSingleOrder(int id)
+            var orderModels = orders.Select(order => new OrderDto
+            {
+                OrderId = order.OrderId,
+                UserName = order.User?.Username,
+                OrderDate = order.OrderDate,
+                OrderDetails = order.OrderDetails.Select(od => new OrderDetailDto
+                {
+                    ProductName = od.Product?.ProductName,
+                    Quantity = od.Quantity
+                }).ToList()
+            }).ToList();
+
+            return orderModels;
+        }
+
+        public OrderDto GetSingleOrder(int id)
         {
-            var singleOrder = _context.Orders.Include(p => p.OrderDetails).ThenInclude(p => p.Product).FirstOrDefault(p => p.OrderId == id);
-            if (singleOrder == null)
+            //var singleOrder = _context.Orders.Include(p => p.OrderDetails).ThenInclude(p => p.Product).FirstOrDefault(p => p.OrderId == id);
+            //if (singleOrder == null)
+            //    return null;
+            //return singleOrder;
+            var order = _context.Orders
+            .Where(o => o.OrderId == id)
+            .Include(o => o.User)
+            .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
+            .FirstOrDefault();
+
+            if (order == null)
+            {
                 return null;
-            return singleOrder;
+            }
+
+            var ordermodels = new OrderDto
+            {
+                OrderId = order.OrderId,
+                UserName = order.User.Username,
+                OrderDate = order.OrderDate,
+                OrderDetails = order.OrderDetails.Select(od => new OrderDetailDto
+                {
+                    ProductName = od.Product?.ProductName,
+                    Quantity = od.Quantity
+                }).ToList()
+            };
+            return ordermodels;
         }
 
         public async Task<List<Order>?> UpdateOrderAsync(int id, Order order)

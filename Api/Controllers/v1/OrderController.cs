@@ -24,9 +24,10 @@ namespace Api.Controllers.v2
         /// <returns>Returns a list of all orders.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(List<Order>), 200)] // Specifies the data type for a successful response
-        public async Task<ActionResult<List<Order>>> GetAllOrder()
+        public ActionResult<List<Order>> GetAllOrder()
         {
-            return await _orderServices.GetAllOrder();
+            var orders = _orderServices.GetAllOrder();
+            return Ok(orders);
         }
         /// <summary>
         /// Get information about a specific order by its identifier.

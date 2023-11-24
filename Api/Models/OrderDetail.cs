@@ -12,7 +12,7 @@ public partial class OrderDetail
 
     public int? ProductId { get; set; }
 
-    public int? Quantity { get; set; }
+    public int Quantity { get; set; }
     [JsonIgnore]
     public virtual Order? Order { get; set; }
     [JsonIgnore]
